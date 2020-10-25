@@ -7,14 +7,16 @@ def arithmetic_arranger(problems, showAns = False):
     secondline = ""
     line = ""
     result = ""
+    prob_len = len(problems)
+    iterator = 0
     
-    for i, problem in enumerate(problems):
-      x = problem.split()
+    for i in problems:
+      x = i.split()
       num1 = x[0]
       num2 = x[2]
       operation = x[1]
-      
-      
+      iterator +=1
+
       if operation not in ["-","+"]:
         return "Error: Operator must be '+' or '-'."
       else:
@@ -29,29 +31,34 @@ def arithmetic_arranger(problems, showAns = False):
              return "Error: Numbers must only contain digits."
            else:
               continue
+         
 
-        if len(num1)>4 or len(num2)>4:
+      if len(num1)>4 or len(num2)>4:
             return "Error: Numbers cannot be more than four digits."
 
-        else:
-            
-        
-            width = max(len(num1), len(num2))+2
-            firstline += str(num1).rjust(width) + "     "
-            secondline += str(operation + " " + num2).rjust(width) + "     "
-            line += str("-"*width) + "     "
-            
-      if showAns == True:
-            if operation == "+":
-              result += str(int(num1) + int(num2))
-            elif operation == "-":
-              result += str(int(num1) - int(num2))
-            result = result.rjust(width) + "     "
-            arranged_problems = (firstline + "\n" + secondline + "\n" + line +  "\n" + result )
       else:
-            arranged_problems = (firstline + "\n" + secondline + "\n" + line )
+            
+            width = max(len(num1), len(num2))+2
+            firstline += str(num1).rjust(width) + ("    " if iterator != prob_len else "")
+            
+            secondline += operation + str(num2).rjust(width-1) + ("    " if iterator != prob_len else "")
+            
+            line += str("-"*width) + ("    " if iterator != prob_len else "")
+            
+           
+      if showAns == True:
+              if operation == "+":
+                result += str(int(num1) + int(num2)).rjust(width) + ("    " if iterator != prob_len else "")
+                
+              elif operation == "-":
+                result += str(int(num1) - int(num2)).rjust(width) + ("    " if iterator != prob_len else "")
+                
+              
+              arranged_problems = (firstline + "\n" + secondline + "\n" + line +  "\n" + result )
+      else:
+              arranged_problems = (firstline + "\n" + secondline + "\n" + line )
     
     
     return print(arranged_problems)
 
-arithmetic_arranger(["32 - 698", "1 - 3801", "45 + 43", "123 + 49"], True)
+arithmetic_arranger(["11 + 4", "3801 - 2999", "1 + 2", "123 + 49", "1 - 9380"], True)
